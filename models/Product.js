@@ -3,15 +3,16 @@ import shortid from 'shortid'
 
 const productSchema = mongoose.Schema({
   name: {
-    type: string,
+    type: String,
     required: true
   },
   mediaUrl: {
-    type: string,
+    type: String,
     required: true
   },
   sku: {
     type: String,
+    unique: true,
     default: shortid.generate()
   },
   price: {

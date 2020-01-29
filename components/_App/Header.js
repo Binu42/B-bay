@@ -15,7 +15,7 @@ function Header() {
     return route === router.pathname;
   }
   return (
-    <Menu fluid inverted id="menu">
+    <Menu stackable fluid inverted id="menu">
       <Container text>
         <Link href="/">
           <Menu.Item active={isActive('/')}>
