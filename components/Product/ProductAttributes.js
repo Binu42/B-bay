@@ -9,7 +9,6 @@ function ProductAttributes({ description, _id }) {
   const Router = useRouter();
 
   const handleDelete = async () => {
-    console.log('hi')
     const payload = { params: { _id } };
     const url = `${baseUrl}/api/product`;
     await axios.delete(url, payload);
