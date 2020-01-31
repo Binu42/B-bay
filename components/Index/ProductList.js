@@ -9,7 +9,7 @@ function ProductList({ products }) {
       meta: `$ ${product.price}`,
       fluid: true,
       childKey: product._id,
-      href: `/play/${product._id}`
+      href: `/product?_id=${product._id}`
     }))
   }
 
