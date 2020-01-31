@@ -4,7 +4,6 @@ import ProductSummary from '../components/Product/ProductSummary'
 import baseUrl from '../utils/baseUrl'
 
 function Product({ product }) {
-  console.log(product)
   return <>
     <ProductSummary {...product} />
     <ProductAttributes {...product} />
