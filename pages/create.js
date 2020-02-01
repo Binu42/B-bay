@@ -37,7 +37,8 @@ function CreateProduct() {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
-      setLoading(true)
+      setLoading(true);
+      setError('');
       const mediaUrl = await handleImageUpload();
       const payload = { ...product, mediaUrl }
       const url = `${baseUrl}/api/product`
@@ -46,6 +47,7 @@ function CreateProduct() {
       setProduct(INTIAL_PRODUCT);
       setSucess(true)
     } catch (err) {
+      setSucess(false);
       catchErrors(err, setError);
     } finally {
       setLoading(false)
