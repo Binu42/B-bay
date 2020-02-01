@@ -1,11 +1,13 @@
 import Product from '../../models/Product'
-
+import connectDB from '../../utils/connectDb';
+import shortid from 'shortid'
 // export default async (req, res) => {
 //   const { _id } = req.query;
 //   const product = await Product.findOne({ _id });
 //   res.status(200).send(product);
 // }
 
+connectDB();
 
 export default async (req, res) => {
   switch (req.method) {
@@ -35,13 +37,22 @@ const handleDeleteRequest = async (req, res) => {
   res.status(204).json({});
 }
 
+
+
 const handlePostRequest = async (req, res) => {
   const { name, description, mediaUrl, price } = req.body;
-  if (!name || !description || !mediaUrl || !price) {
-    res.status(422).send('Missing one or more required Fields');
+  console.log(name, description, mediaUrl, price)
+  try {
+    if (!name || !description || !mediaUrl || !price) {
+      res.status(422).send('Missing one or more required Fields');
+    }
+    const sku = shortid.generate();
+    const product = await new Product({
+      name, description, mediaUrl, price, sku
+    }).save();
+    res.status(201).json(product)
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error while creating product');
   }
-  const product = await new Product({
-    name, description, mediaUrl, price
-  }).save();
-  res.status(201).json(product)
 }

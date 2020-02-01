@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import shortid from 'shortid'
 
 const productSchema = mongoose.Schema({
   name: {
@@ -13,7 +12,7 @@ const productSchema = mongoose.Schema({
   sku: {
     type: String,
     unique: true,
-    default: shortid.generate()
+    required: true
   },
   price: {
     type: Number,
@@ -21,7 +20,7 @@ const productSchema = mongoose.Schema({
   },
   description: {
     type: String,
-    require: true
+    required: true
   }
 })
 
