@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const cartSchema = new mongoose.Schema({
   user: {
-    type: mongoose.Schema.objectId.types(),
+    type: mongoose.Schema.Types.objectId,
     ref: 'users'
   },
   products: [
@@ -12,7 +12,7 @@ const cartSchema = new mongoose.Schema({
         default: 1
       },
       product: {
-        type: mongoose.Schema.objectId,
+        type: mongoose.Schema.Types.objectId,
         ref: "cart"
       }
     }
