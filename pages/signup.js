@@ -4,12 +4,14 @@ import { Message, Icon, Form, Segment, Button } from 'semantic-ui-react'
 import catchErrors from '../utils/catchErrors'
 import axios from 'axios'
 import baseUrl from '../utils/baseUrl'
+import { handleLogin } from '../utils/auth'
 
 
 const INTIAL_STATE = {
   name: "",
   email: "",
-  password: ""
+  password: "",
+  confirmPassword: ""
 }
 
 function Signup() {
@@ -25,18 +27,19 @@ function Signup() {
 
   useEffect(() => {
     const isUser = Object.values(user).every(el => Boolean(el));
-    isUser ? setDisabled(false) : setDisabled(true);
+    const isMatched = user.password === user.confirmPassword;
+    isUser && isMatched ? setDisabled(false) : setDisabled(true);
   }, [user]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     try {
       event.preventDefault();
       setLoading(true);
       setError('');
       const url = `${baseUrl}/api/signup`
       const payload = { ...user };
-      const newUser = await axios(url, payload);
-      console.log(newUser);
+      const response = await axios.post(url, payload);
+      handleLogin(response.data);
     } catch (error) {
       catchErrors(error, setError);
     } finally {
@@ -85,6 +88,16 @@ function Signup() {
           name="password"
           label="password"
           placeholder="Enter Your password"
+          onChange={handleChange}
+        />
+        <Form.Input
+          icon='lock'
+          fluid
+          type="password"
+          iconPosition="left"
+          name="confirmPassword"
+          label="confirm password"
+          placeholder="Confirm Your password"
           onChange={handleChange}
         />
         <Button
