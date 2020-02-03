@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import User from '../../models/User'
+import Cart from '../../models/Cart'
 import connectDB from '../../utils/connectDb'
 import isEmail from 'validator/lib/isEmail'
 import isLength from 'validator/lib/isLength'
@@ -27,6 +28,8 @@ async function Signup(req, res) {
       email,
       password: hash
     }).save();
+
+    await new Cart({ user: newUser._id }).save();
 
     const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
     res.status(201).json(token);
