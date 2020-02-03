@@ -13,6 +13,7 @@ class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx)
     }
 
+    // redirecting user from account and create route if not loggedIN.
     if (!token) {
       const isProtectedRoute = ctx.pathname === '/account' || ctx.pathname === '/create';
       if (isProtectedRoute) {
@@ -23,7 +24,15 @@ class MyApp extends App {
         const payload = { headers: { authorization: token } };
         const url = `${baseUrl}/api/account`;
         const response = await Axios.get(url, payload);
-        pageProps.user = response.data;
+        const user = response.data;
+        // redirecting user from create route to home.
+        const isAdmin = user.role === "admin";
+        const isRoot = user.role === "root";
+        const isNotPermited = (isAdmin || isRoot) && router.pathname === "/create";
+        if (isNotPermited) {
+          Redirect(ctx, '/');
+        }
+        pageProps.user = user;
       } catch (error) {
         console.log("Error getting user Details", error);
         destroyCookie(ctx, 'token');
