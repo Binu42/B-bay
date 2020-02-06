@@ -1,7 +1,6 @@
 import { Segment, Header, Button, Icon } from 'semantic-ui-react'
 
-function CartItemList() {
-  const user = true;
+function CartItemList({ user }) {
   return (
     <Segment inverted color="teal" secondary textAlign="center" placeholder>
       <Header icon>

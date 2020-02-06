@@ -80,7 +80,7 @@ function Header({ user }) {
                 </Menu.Item>
               </Link>
               <Link href="/signup">
-                <Menu.Item active={isActive('/logout')}>
+                <Menu.Item active={isActive('/signup')}>
                   <Icon
                     name="signup"
                     size="large"
