@@ -1,6 +1,13 @@
+import { useEffect, useState } from 'react';
 import { Segment, Button, Divider } from 'semantic-ui-react'
 
-function CartSummary() {
+function CartSummary({ products }) {
+
+  const [isEmpty, setIsEmpty] = useState(false);
+
+  useEffect(() => {
+    setIsEmpty(products.length === 0);
+  }, [products])
   return <>
     <Divider />
     <Segment clearing size="large">
@@ -9,6 +16,7 @@ function CartSummary() {
         icon='cart'
         color="green"
         content="Checkout"
+        disabled={isEmpty}
         floated="right"
       />
     </Segment>

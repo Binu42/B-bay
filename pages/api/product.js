@@ -1,11 +1,6 @@
 import Product from '../../models/Product'
 import connectDB from '../../utils/connectDb';
 import shortid from 'shortid'
-// export default async (req, res) => {
-//   const { _id } = req.query;
-//   const product = await Product.findOne({ _id });
-//   res.status(200).send(product);
-// }
 
 connectDB();
 
