@@ -7,14 +7,18 @@ async function connectDB() {
     console.log('connected with existing connection');
     return;
   }
-  const db = await mongoose.connect(process.env.MONGO_SRV, {
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  connection.isConnected = db.connections[0].readyState;
-  console.log('Connected to Database')
+  try {
+    const db = await mongoose.connect(process.env.MONGO_SRV, {
+      useCreateIndex: true,
+      useFindAndModify: false,
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    connection.isConnected = db.connections[0].readyState;
+    console.log('Connected to Database')
+  } catch (error) {
+    console.log(error.message)
+  }
 }
 
 export default connectDB;
