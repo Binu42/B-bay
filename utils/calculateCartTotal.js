@@ -2,7 +2,7 @@ function calculateCartTotal(products) {
   // console.log(products)
   const total = products.reduce((acc, el) => {
     acc += el.quantity * el.product.price;
-    console.log(acc, el)
+    // console.log(acc, el)
     return acc;
   }, 0);
   // console.log(total)
