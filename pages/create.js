@@ -43,7 +43,6 @@ function CreateProduct() {
       const payload = { ...product, mediaUrl }
       const url = `${baseUrl}/api/product`
       const res = await Axios.post(url, payload);
-      console.log(res)
       setProduct(INTIAL_PRODUCT);
       setSucess(true)
     } catch (err) {

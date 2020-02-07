@@ -7,8 +7,8 @@ function calculateCartTotal(products) {
   }, 0);
   // console.log(total)
   const cartTotal = ((total * 100) / 100).toFixed(2);
-  const stripeTotal = Number(total * 100).toFixed(2);
-  // console.log(cartTotal)
+  const stripeTotal = Number((total * 100).toFixed(2));
+  // console.log(cartTotal, stripeTotal)
   return { cartTotal, stripeTotal };
 }
 
