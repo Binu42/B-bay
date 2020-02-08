@@ -4,7 +4,7 @@ import { parseCookies, destroyCookie } from 'nookies'
 import { Redirect } from '../utils/auth'
 import baseUrl from '../utils/baseUrl'
 import Axios from "axios";
-import Router from "next/router";
+import Router from 'next/router'
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -29,7 +29,7 @@ class MyApp extends App {
         // redirecting user from create route to home.
         const isAdmin = user.role === "admin";
         const isRoot = user.role === "root";
-        const isNotPermited = (isAdmin || isRoot) && router.pathname === "/create";
+        const isNotPermited = (isAdmin || isRoot) && ctx.pathname === "/create";
         if (isNotPermited) {
           Redirect(ctx, '/');
         }
