@@ -29,8 +29,8 @@ class MyApp extends App {
         // redirecting user from create route to home.
         const isAdmin = user.role === "admin";
         const isRoot = user.role === "root";
-        const isNotPermited = (isAdmin || isRoot) && ctx.pathname === "/create";
-        if (!isNotPermited) {
+        const isNotPermited = !(isAdmin || isRoot) && ctx.pathname === "/create";
+        if (isNotPermited) {
           Redirect(ctx, '/');
         }
         pageProps.user = user;

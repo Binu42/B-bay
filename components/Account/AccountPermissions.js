@@ -28,6 +28,7 @@ function AccountPermissions() {
       <Table compact celled selectable color="teal">
         <Table.Header>
           <Table.Row>
+            <Table.HeaderCell>Toggle</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
             <Table.HeaderCell>Joined On</Table.HeaderCell>
