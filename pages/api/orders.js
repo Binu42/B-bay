@@ -4,11 +4,13 @@ import connectDB from '../../utils/connectDb'
 
 
 connectDB();
+require('../../models/Product')
 
 export default async (req, res) => {
   try {
     const { userId } = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
     const orders = await Order.find({ user: userId })
+      .sort({ createdAt: 'desc' })
       .populate({
         path: 'products.product',
         model: 'products'
