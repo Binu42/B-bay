@@ -30,7 +30,7 @@ class MyApp extends App {
         const isAdmin = user.role === "admin";
         const isRoot = user.role === "root";
         const isNotPermited = (isAdmin || isRoot) && ctx.pathname === "/create";
-        if (isNotPermited) {
+        if (!isNotPermited) {
           Redirect(ctx, '/');
         }
         pageProps.user = user;
