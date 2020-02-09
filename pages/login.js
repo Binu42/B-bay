@@ -50,6 +50,7 @@ function Signup() {
       content="Login With Email and Password"
       color="teal"
     />
+    Login
     <Form error={Boolean(error)} loading={loading} onSubmit={handleSubmit}>
       <Message
         error

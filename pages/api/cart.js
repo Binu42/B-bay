@@ -10,6 +10,7 @@ const { ObjectId } = mongoose.Types;
 export default async (req, res) => {
   switch (req.method) {
     case "GET":
+      console.log('get request')
       await handleGetReq(req, res);
       break;
     case "PUT":
@@ -28,14 +29,16 @@ const handleGetReq = async (req, res) => {
     return res.status(401).send('NO Authorization token');
   }
 
+  console.log('get request')
+
   try {
     const { userId } = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
-    // console.log(userId)
+    console.log(userId)
     const cart = await Cart.findOne({ user: userId }).populate({ path: "products.product", model: 'products' });
-    // console.log(cart.products);
+    console.log(cart.products);
     res.status(200).json(cart.products);
   } catch (error) {
-    console.error(error);
+    console.error("error while fetching cart", error);
     res.status(403).send('Login Again!')
   }
 }

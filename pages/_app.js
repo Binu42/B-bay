@@ -40,7 +40,7 @@ class MyApp extends App {
         Redirect(ctx, '/login');
       }
     }
-    return { pageProps: pageProps };
+    return { pageProps };
   }
 
   componentDidMount() {
