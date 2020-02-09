@@ -1,8 +1,12 @@
 import jwt from 'jsonwebtoken'
 import User from '../../models/User'
+import Cors from 'micro-cors'
 
+const cors = Cors({
+  allowMethods: ['GET', 'HEAD'],
+})
 
-export default async (req, res) => {
+async function user(req, res) {
   try {
     const { userId } = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
     const users = await User.find({ _id: { $ne: userId } })
@@ -13,3 +17,5 @@ export default async (req, res) => {
     res.status(403).send('please Login Again');
   }
 }
+
+export default cors(user);

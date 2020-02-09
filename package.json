@@ -1,7 +1,7 @@
 {
-  "name": "react-reserve",
+  "name": "b-bay",
   "version": "1.0.0",
-  "description": "Project for MERN Stack - The Complete Guide",
+  "description": "online selling web application having root, admin and user.",
   "main": "index.js",
   "scripts": {
     "dev": "next",
@@ -16,6 +16,7 @@
     "bcrypt": "^3.0.8",
     "js-cookie": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
+    "micro-cors": "^0.1.1",
     "mongoose": "^5.8.11",
     "next": "^9.2.1",
     "nookies": "^2.0.8",
