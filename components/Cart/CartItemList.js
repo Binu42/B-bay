@@ -1,57 +1,75 @@
-import { Segment, Header, Button, Icon, Item, Message } from 'semantic-ui-react'
-import { useRouter } from 'next/router'
+import {
+  Header,
+  Segment,
+  Button,
+  Icon,
+  Item,
+  Message
+} from "semantic-ui-react";
+import { useRouter } from "next/router";
 
-function CartItemList({ products, user, handleRemove, success }) {
-  const Router = useRouter();
-  const mapCartProductsToItems = (products) => {
-    return products.map(item => ({
-      childKey: item.product._id,
+function CartItemList({ products, user, handleRemoveFromCart, success }) {
+  const router = useRouter();
+
+  function mapCartProductsToItems(products) {
+    return products.map(p => ({
+      childKey: p.product._id,
       header: (
-        <Item.Header as="a" onClick={() => Router.push(`/product?_id=${item.product._id}`)}>
-          {item.product.name}
+        <Item.Header
+          as="a"
+          onClick={() => router.push(`/product?_id=${p.product._id}`)}
+        >
+          {p.product.name}
         </Item.Header>
       ),
-      image: item.product.mediaUrl,
-      meta: `${item.quantity} x ₹${item.product.price}`,
+      image: p.product.mediaUrl,
+      meta: `${p.quantity} x $${p.product.price}`,
       fluid: "true",
       extra: (
         <Button
           basic
           icon="remove"
           floated="right"
-          onClick={() => handleRemove(item.product._id)}
+          onClick={() => handleRemoveFromCart(p.product._id)}
         />
       )
     }));
   }
+
   if (success) {
     return (
-      <Message success
-        header="success!"
-        content="Your Ordered and Payment is Accepted!"
+      <Message
+        success
+        header="Success!"
+        content="Your order and payment has been accepted"
         icon="star outline"
       />
-    )
+    );
   }
+
   if (products.length === 0) {
     return (
-      <Segment inverted color="teal" secondary textAlign="center" placeholder>
+      <Segment secondary color="teal" inverted textAlign="center" placeholder>
         <Header icon>
           <Icon name="shopping basket" />
-          No Product in Your Cart!! Add Some
+          No products in your cart. Add some!
         </Header>
         <div>
           {user ? (
-            <Button color='orange' onClick={() => Router.push('/')}>View Products</Button>
+            <Button color="orange" onClick={() => router.push("/")}>
+              View Products
+            </Button>
           ) : (
-              <Button color="blue" onClick={() => Router.push('/login')}>Login To Add Products</Button>
+              <Button color="blue" onClick={() => router.push("/login")}>
+                Login to Add Products
+            </Button>
             )}
         </div>
       </Segment>
     );
   }
 
-  return <Item.Group divided items={mapCartProductsToItems(products)} />
+  return <Item.Group divided items={mapCartProductsToItems(products)} />;
 }
 
 export default CartItemList;

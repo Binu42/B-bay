@@ -7,10 +7,10 @@ connectDB()
 export default async (req, res) => {
   switch (req.method) {
     case "GET":
-      handleGetReq(req, res);
+      await handleGetReq(req, res);
       break;
     case "PUT":
-      handlePutReq(req, res);
+      await handlePutReq(req, res);
       break;
     default:
       res.status(405).send(`method ${req.method} is not allowed`);

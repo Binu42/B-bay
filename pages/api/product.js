@@ -25,7 +25,7 @@ export default async (req, res) => {
 const handleGetRequest = async (req, res) => {
   const { _id } = req.query;
   const product = await Product.findOne({ _id });
-  res.status(200).send(product);
+  res.status(200).json(product);
 }
 
 const handleDeleteRequest = async (req, res) => {
@@ -36,7 +36,7 @@ const handleDeleteRequest = async (req, res) => {
     res.status(204).json({});
   } catch (error) {
     console.error(error);
-    res.status(405).send('Error while Deleting producy');
+    res.status(405).send('Error while Deleting product');
   }
 }
 
@@ -44,7 +44,7 @@ const handleDeleteRequest = async (req, res) => {
 
 const handlePostRequest = async (req, res) => {
   const { name, description, mediaUrl, price } = req.body;
-  console.log(name, description, mediaUrl, price)
+  // console.log(name, description, mediaUrl, price)
   try {
     if (!name || !description || !mediaUrl || !price) {
       res.status(422).send('Missing one or more required Fields');

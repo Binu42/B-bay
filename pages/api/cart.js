@@ -1,88 +1,96 @@
-import jwt from 'jsonwebtoken';
-import mongoose from 'mongoose'
-import Cart from '../../models/Cart'
-import connectDb from '../../utils/connectDb'
-import Cors from 'micro-cors'
+import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
+import Cart from "../../models/Cart";
+import connectDB from "../../utils/connectDb";
 
-const cors = Cors({
-  allowMethods: ['GET', 'PUT', "DELETE"],
-})
-
-connectDb();
-
+connectDB();
+require('../../models/Product')
 const { ObjectId } = mongoose.Types;
 
-async function cart(req, res) {
+export default async (req, res) => {
   switch (req.method) {
     case "GET":
-      console.log('get request')
-      await handleGetReq(req, res);
+      await handleGetRequest(req, res);
       break;
     case "PUT":
-      await handlePutReq(req, res);
+      await handlePutRequest(req, res);
       break;
     case "DELETE":
-      await handleDeleteReq(req, res);
+      await handleDeleteRequest(req, res);
       break;
     default:
-      res.status(405).send(`method ${req.method} is not allowed`)
+      res.status(405).send(`Method ${req.method} not allowed`);
+      break;
   }
-}
+};
 
-const handleGetReq = async (req, res) => {
-  if (!('authorization' in req.headers)) {
-    return res.status(401).send('NO Authorization token');
+async function handleGetRequest(req, res) {
+  if (!("authorization" in req.headers)) {
+    return res.status(401).send("No authorization token");
   }
-
   try {
-    const { userId } = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
-    const cart = await Cart.findOne({ user: userId }).populate({ path: "products.product", model: 'products' });
-    // console.log(cart.products);
+    const { userId } = jwt.verify(
+      req.headers.authorization,
+      process.env.JWT_SECRET
+    );
+    const cart = await Cart.findOne({ user: userId }).populate({
+      path: "products.product",
+      model: "products"
+    });
     res.status(200).json(cart.products);
   } catch (error) {
-    console.error("error while fetching cart", error);
-    res.status(403).send('Login Again!')
+    console.error(error);
+    res.status(403).send("Please login again");
   }
 }
 
-const handlePutReq = async (req, res) => {
+async function handlePutRequest(req, res) {
   const { quantity, productId } = req.body;
-  if (!('authorization' in req.headers)) {
-    return res.status(401).send('NO Authorization token');
+  if (!("authorization" in req.headers)) {
+    return res.status(401).send("No authorization token");
   }
-
   try {
-    const { userId } = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
+    const { userId } = jwt.verify(
+      req.headers.authorization,
+      process.env.JWT_SECRET
+    );
+    // Get user cart based on userId
     const cart = await Cart.findOne({ user: userId });
-    const productExist = cart.products.some(doc => ObjectId(productId).equals(doc.product));
-    if (productExist) {
+    // Check if product already exists in cart
+    const productExists = cart.products.some(doc =>
+      ObjectId(productId).equals(doc.product)
+    );
+    // If so, increment quantity (by number provided to request)
+    if (productExists) {
       await Cart.findOneAndUpdate(
         { _id: cart._id, "products.product": productId },
-        { $inc: { "products.$.quantity": quantity } })
+        { $inc: { "products.$.quantity": quantity } }
+      );
     } else {
+      // If not, add new product with given quantity
       const newProduct = { quantity, product: productId };
-      await Cart.findByIdAndUpdate(
+      await Cart.findOneAndUpdate(
         { _id: cart._id },
         { $addToSet: { products: newProduct } }
-      )
+      );
     }
-    res.status(200).send('cart updated');
+    res.status(200).send("Cart updated");
   } catch (error) {
     console.error(error);
-    res.status(403).send('Login Again!')
+    res.status(403).send("Please login again");
   }
 }
 
-const handleDeleteReq = async (req, res) => {
+async function handleDeleteRequest(req, res) {
   const { productId } = req.query;
-  // console.log(req.query, req.headers)
-  if (!('authorization' in req.headers)) {
-    return res.status(401).send('NO Authorization token');
+  if (!("authorization" in req.headers)) {
+    return res.status(401).send("No authorization token");
   }
   try {
-    // console.log(req.headers.authorization)
-    const { userId } = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
-    // console.log(userId)
+    const { userId } = jwt.verify(
+      req.headers.authorization,
+      process.env.JWT_SECRET
+    );
     const cart = await Cart.findOneAndUpdate(
       { user: userId },
       { $pull: { products: { product: productId } } },
@@ -90,12 +98,10 @@ const handleDeleteReq = async (req, res) => {
     ).populate({
       path: "products.product",
       model: "products"
-    })
+    });
     res.status(200).json(cart.products);
   } catch (error) {
     console.error(error);
-    res.status(403).send('Login Again!')
+    res.status(403).send("Please login again");
   }
 }
-
-export default cors(cart);

@@ -20,7 +20,7 @@ Account.getInitialProps = async ctx => {
     return { orders: [] }
   }
   const url = `${baseUrl}/api/orders`
-  const payload = { headers: { authorization: token } }
+  const payload = { headers: { Authorization: token } }
   const response = await Axios.get(url, payload);
   return response.data;
 }

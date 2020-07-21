@@ -22,7 +22,7 @@ class MyApp extends App {
       }
     } else {
       try {
-        const payload = { headers: { authorization: token } };
+        const payload = { headers: { Authorization: token } };
         const url = `${baseUrl}/api/account`;
         const response = await Axios.get(url, payload);
         const user = response.data;

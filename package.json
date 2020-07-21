@@ -16,7 +16,6 @@
     "bcrypt": "^3.0.8",
     "js-cookie": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
-    "micro-cors": "^0.1.1",
     "mongoose": "^5.8.11",
     "next": "^9.2.1",
     "nookies": "^2.0.8",
