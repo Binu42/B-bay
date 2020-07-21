@@ -8,6 +8,12 @@ body {
   background: var(--bodyBg);
 }
 
+#__next {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 #menu {
   background: var(--menuBg);
 }
@@ -123,6 +129,7 @@ footer {
   background-color: #464646;
   text-align: center;
   color: aliceblue;
+  margin-top: auto;
 }
 
 @keyframes pulse {
