@@ -20,7 +20,7 @@ function Layout({ children, user }) {
         <title>B-bay</title>
       </Head>
       <Header user={user} />
-      <Container text style={{ paddingTop: '1em' }}>
+      <Container text style={{ padding: '1em 0' }}>
         {children}
       </Container>
 
